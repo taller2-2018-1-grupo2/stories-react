@@ -1,23 +1,60 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Login from './login/Login.js'
-import Register from './register/Register.js'
-import Home from './home/Home.js'
-import './App.css';
+import React, { Component, Fragment } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
+import { Nav, Navbar, NavItem } from "react-bootstrap";
+import Routes from "./Routes";
+import "./App.css";
 
-const App = () => (
-  <MuiThemeProvider>
-    <Router>
-      <div>
-        <Route exact path="/" component={Login}/>
-        <Route path="/register" component={Register}/>
-        <Route path="/home" component={Home}/>
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      isAuthenticated: false
+    };
+  }
+  
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+
+  handleLogout = event => {
+    this.userHasAuthenticated(false);
+  }
+
+  render() {
+    const childProps = {
+      isAuthenticated: this.state.isAuthenticated,
+      userHasAuthenticated: this.userHasAuthenticated
+    };
+
+    return (
+      <div className="App container">
+        <Navbar fluid collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/">Stories</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+            {this.state.isAuthenticated
+              ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
+              : <Fragment>
+                  <LinkContainer to="/login">
+                    <NavItem>Login</NavItem>
+                  </LinkContainer>
+                </Fragment>
+            }
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <Routes childProps={childProps} />
       </div>
-    </Router>
-  </MuiThemeProvider>
-)
-export default App
+    );
+  }
+}
+
+export default App;
