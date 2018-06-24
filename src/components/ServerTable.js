@@ -137,8 +137,24 @@ export default class ServerTable extends Component {
     
   }
 
+  componentDidUpdate() {
+      console.log("UPDATE");
+  }
+
   onAddRow(row) {
-      
+      console.log("HOLA");
+      console.log(row);
+      const mServers = this.state.servers;
+      mServers.push({
+          id: 4,
+          name: "server4",
+          url: "asd.com",
+          createdBy: 1,
+          createdTime:"24/6/2018",
+          lastConnection:"",
+          _rev:"8grHeDRgppoaL+oIV8DqMw=="
+      })
+      this.setState({servers: mServers});
   }
 
   render() {
