@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import LoaderButton from "../components/LoaderButton";
 import "./Login.css";
+import axios from 'axios'
+
+const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoading: false,
       username: "",
       password: ""
     };
@@ -24,11 +29,27 @@ export default class Login extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-  
+
+    const authFunction = token => this.props.userHasAuthenticated(true, token);
+    const goToRoute = route => this.props.history.push(route);
+    const setIsLoadingFlag = flag => this.setState({ isLoading: flag});
+
+    this.setState({ isLoading: true });
     try {
-      //await Auth.signIn(this.state.username, this.state.password);
-      //HTTPRequest y si esta todo bien, routear segun corresponda y guardar los datos.
-      this.props.userHasAuthenticated(true);
+      axios.post(SHARED_SERVER_URI + '/admin_token', {
+        username: this.state.username,
+        password: this.state.password
+      })
+        .then(function (response) {
+          setIsLoadingFlag(false);
+          authFunction(response.data.token);
+          goToRoute("/");
+        })
+        .catch(function (error) {
+          setIsLoadingFlag(false);
+          alert("Hubo un error al iniciar sesion.");
+          console.log(error);
+        });
     } catch (e) {
       alert(e.message);
     }
@@ -55,14 +76,15 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
-          <Button
+          <LoaderButton
             block
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
-          >
-            Login
-          </Button>
+            isLoading={this.state.isLoading}
+            text="Iniciar sesión"
+            loadingText="Ingresando..."
+          />
         </form>
       </div>
     );
