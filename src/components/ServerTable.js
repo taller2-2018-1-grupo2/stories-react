@@ -77,6 +77,7 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                alert("No se pudo editar el servidor.");
                 result = false;
               });
     } else {
@@ -96,6 +97,7 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                alert("No se pudo editar el servidor.");
                 result = false;
               });
     }
@@ -142,19 +144,33 @@ export default class ServerTable extends Component {
   }
 
   onAddRow(row) {
-      console.log("HOLA");
-      console.log(row);
-      const mServers = this.state.servers;
-      mServers.push({
-          id: 4,
-          name: "server4",
-          url: "asd.com",
-          createdBy: 1,
-          createdTime:"24/6/2018",
-          lastConnection:"",
-          _rev:"8grHeDRgppoaL+oIV8DqMw=="
-      })
-      this.setState({servers: mServers});
+      const setServers = mServers => this.setState({servers: mServers});
+      const getServers = () => this.state.servers;
+
+      const innerAsyncFct = async () => {
+        await axios({
+          method:'post',
+          data: {
+            name: row.name,
+            url: row.url
+          },
+          url: SHARED_SERVER_URI + '/servers',
+          headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
+          })
+            .then(function(response) {
+              console.log(response);
+              let servers = getServers();
+              servers.push(response.data.server.server);
+              setServers(servers);
+            })
+            .catch(function (error) {
+              console.log(error);
+              alert("No se pudo crear el servidor.");
+            });
+      }
+      
+      innerAsyncFct();
+      return;
   }
 
   render() {
@@ -178,12 +194,12 @@ export default class ServerTable extends Component {
       <div>
         <BootstrapTable ref='serverTable' data={ this.state.servers } insertRow={ true } deleteRow={ true } selectRow={ selectRowProp } options={ options }
                     headerStyle={ { background: '#f8f8f8' } } cellEdit={ cellEditProp }>
-            <TableHeaderColumn dataField='id' editable={ false } isKey={ true } width='70'>ID</TableHeaderColumn>
+            <TableHeaderColumn dataField='id' hiddenOnInsert editable={ false } isKey={ true } width='70'>ID</TableHeaderColumn>
             <TableHeaderColumn dataField='name' width='200'>Nombre</TableHeaderColumn>
             <TableHeaderColumn dataField='url' width='320'>Server URL</TableHeaderColumn>
-            <TableHeaderColumn dataField='createdBy' editable={ false } width='120'>Creado por</TableHeaderColumn>
-            <TableHeaderColumn dataField='createdTime' editable={ false } width='150'>Fecha de creación</TableHeaderColumn>
-            <TableHeaderColumn dataField='lastConnection' editable={ false }>Última conexión</TableHeaderColumn>
+            <TableHeaderColumn dataField='createdBy' hiddenOnInsert editable={ false } width='120'>Creado por</TableHeaderColumn>
+            <TableHeaderColumn dataField='createdTime' hiddenOnInsert editable={ false } width='150'>Fecha de creación</TableHeaderColumn>
+            <TableHeaderColumn dataField='lastConnection' hiddenOnInsert editable={ false }>Última conexión</TableHeaderColumn>
         </BootstrapTable>
       </div>
     );

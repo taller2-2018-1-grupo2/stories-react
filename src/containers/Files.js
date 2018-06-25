@@ -1,24 +1,26 @@
 import React, { Component } from "react";
-import "./NotFound.css";
+import FileTable from "../components/FileTable"
 
 export default class Files extends Component {
 
   constructor(props) {
     super(props);
-  
+
     this.state = {
-      files: []
+      serverID: this.props.match.params.serverID
     };
+
   }
 
-  componentDidMount(){
-    console.log(this.props.token);
-  };
-
   render() {
+    const childProps = {
+      token: this.props.token,
+      serverID: this.props.match.params.serverID,
+    };
+
     return (
-      <div className="NotFound">
-        <h3>Files</h3>
+      <div>
+        <FileTable childProps={childProps}/>
       </div>
     );
   }
