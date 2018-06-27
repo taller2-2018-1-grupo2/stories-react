@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import {Bar} from 'react-chartjs-2';
-import moment from 'moment'
 import _ from 'lodash'
 import axios from 'axios'
 

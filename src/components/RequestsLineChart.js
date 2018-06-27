@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { DropdownButton, MenuItem, Form, FormGroup, FormControl, ControlLabel, Button, Grid, Row, Col } from "react-bootstrap";
+import { DropdownButton, MenuItem, Form, FormGroup, FormControl, Button, Grid, Row, Col } from "react-bootstrap";
 import {Line} from 'react-chartjs-2';
-import moment from 'moment'
 import _ from 'lodash'
 import axios from 'axios'
 

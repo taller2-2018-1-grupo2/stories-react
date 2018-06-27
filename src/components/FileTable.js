@@ -32,7 +32,6 @@ export default class FileTable extends Component {
 
     console.log(this.state.serverToken);
     console.log(row._rev);
-    const setFiles = mFiles => this.setState({files: mFiles});
 
     let result = false;
 

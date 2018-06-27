@@ -41,9 +41,13 @@ export default class RegisteredUsersPieChart extends Component {
     let mDatapoints = []
     const serversInfo = this.props.childProps.serversInfo;
 
+    console.log(mStats);
+
     mStats.forEach(server => {
-        mLabels.push(serversInfo[serversInfo.findIndex(serverInfo => serverInfo.id === server.id)].name);
-        mDatapoints.push(server.total_users);
+        if (serversInfo.findIndex(serverInfo => serverInfo.id === server.id) !== -1) {
+            mLabels.push(serversInfo[serversInfo.findIndex(serverInfo => serverInfo.id === server.id)].name);
+            mDatapoints.push(server.total_users);
+        }
     });
 
     var colors = [];
