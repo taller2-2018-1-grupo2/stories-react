@@ -16,7 +16,6 @@ export default class FileTable extends Component {
     };
 
     this.customConfirm = this.customConfirm.bind(this);
-    this.onAddRow = this.onAddRow.bind(this);
     this.onBeforeSaveCell = this.onBeforeSaveCell.bind(this);
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -140,51 +139,31 @@ export default class FileTable extends Component {
     }
   }
 
-  customConfirm(next, dropRowKeys) {
+  async customConfirm(next, dropRowKeys) {
     console.log(dropRowKeys);
     //Async/Await y si sale todo bien, confirmo el DELETE de las rows.
-    
-  }
-
-  onAddRow(row) {
-    /*const setServers = mServers => this.setState({servers: mServers});
-    const getServers = () => this.state.servers;
-
-    const innerAsyncFct = async () => {
-      await axios({
-        method:'post',
-        data: {
-          name: row.name,
-          url: row.url
-        },
-        url: SHARED_SERVER_URI + '/servers',
-        headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
+    await axios({
+      method:'delete',
+      url: SHARED_SERVER_URI + '/files/' + dropRowKeys,
+      headers: {'Authorization': 'Bearer ' + this.state.serverToken}
+      })
+        .then(function(response) {
+          console.log(response);
+          next();
         })
-          .then(function(response) {
-            console.log(response);
-            let servers = getServers();
-            servers.push(response.data.server.server);
-            setServers(servers);
-          })
-          .catch(function (error) {
-            console.log(error);
-            alert("No se pudo crear el servidor.");
-          });
-    }
-    
-    innerAsyncFct();*/
-    return;
+        .catch(function (error) {
+          console.log(error);
+        });
   }
 
   render() {
     const options = {
-      onAddRow: this.onAddRow,
       handleConfirmDeleteRow: this.customConfirm,
       noDataText: 'No hay archivos para este servidor.'
     };
 
     const selectRowProp = {
-        mode: 'checkbox'
+        mode: 'radio'
     };
     
     const cellEditProp = {
@@ -195,7 +174,7 @@ export default class FileTable extends Component {
     return (
       <div>
         <BootstrapTable ref='fileTable' data={ this.state.files } 
-          insertRow={ true } deleteRow={ true } selectRow={ selectRowProp }
+          deleteRow={ true } selectRow={ selectRowProp }
             options={ options } headerStyle={{ background: '#f8f8f8' }} cellEdit={ cellEditProp }>
             <TableHeaderColumn dataField='id' hiddenOnInsert width='40' editable={ false } isKey={ true } >ID</TableHeaderColumn>
             <TableHeaderColumn dataField='resource' width='250' >URL</TableHeaderColumn>

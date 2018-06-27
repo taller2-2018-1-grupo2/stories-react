@@ -3,6 +3,7 @@ import { DropdownButton, MenuItem, Form, FormGroup, FormControl, Button, Grid, R
 import {Line} from 'react-chartjs-2';
 import _ from 'lodash'
 import axios from 'axios'
+import './StatsLobsterTitles.css'
 
 const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
 const now = Date.now();
@@ -115,7 +116,11 @@ export default class RequestsLineChart extends Component {
     if (id === "all") {
         this.setInitialData(this.state.stats);
     } else {
-        const serverStats = this.state.stats[this.state.stats.findIndex(server => server.id === id)].stats;
+        let serverStats = [];
+        
+        if (this.state.stats.findIndex(server => server.id === id) !== -1) {
+            serverStats = this.state.stats[this.state.stats.findIndex(server => server.id === id)].stats;
+        }
 
         serverStats.forEach(request => {
             timestamps.push(request.timestamp);
@@ -164,29 +169,27 @@ export default class RequestsLineChart extends Component {
 
     return (
         <div>
-            <h2>Consultas (Por Minuto)</h2>
+            <h2 className="lobsterTitle">Consultas (Por Minuto)</h2>
             <br/>
             <Grid>
                 <Row className="show-grid">
                     <Col xs={6} md={4}>
                         <div>
-                            <form onSubmit={this.refreshChart}>
-                                <Form inline>
-                                    <FormGroup
-                                        controlId="refreshChart"
-                                        validationState={this.getValidationState()}
-                                    >
-                                    <FormControl
-                                        type="text"
-                                        value={this.state.value}
-                                        placeholder="Ingrese el rango"
-                                        onChange={this.handleChange}
-                                    />
-                                    <FormControl.Feedback />
-                                    </FormGroup>
-                                    <Button style={{ marginLeft: 10 + "px" }} type="submit">Actualizar</Button>
-                                </Form>
-                            </form>
+                            <Form inline onSubmit={this.refreshChart}>
+                                <FormGroup
+                                    controlId="refreshChart"
+                                    validationState={this.getValidationState()}
+                                >
+                                <FormControl
+                                    type="text"
+                                    value={this.state.value}
+                                    placeholder="Ingrese el rango"
+                                    onChange={this.handleChange}
+                                />
+                                <FormControl.Feedback />
+                                </FormGroup>
+                                <Button style={{ marginLeft: 10 + "px" }} type="submit">Actualizar</Button>
+                            </Form>
                         </div>
                     </Col>
                     <Col xs={6} md={2}>

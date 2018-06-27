@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import {Pie} from 'react-chartjs-2';
 import axios from 'axios'
+import './StatsLobsterTitles.css'
 
 const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
 
@@ -116,7 +117,7 @@ export default class ActiveUsersPieChart extends Component {
 
     return (
         <div>
-            <h2>Usuarios Activos</h2>
+            <h2 className="lobsterTitle">Usuarios Activos</h2>
             <br/>
             <DropdownButton title={"Elegir fuente"} id={"dropdown"}>
                 <MenuItem onClick={(e) => this.setStats("all", e)}>Todos</MenuItem>

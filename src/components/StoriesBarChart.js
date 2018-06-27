@@ -3,6 +3,7 @@ import { DropdownButton, MenuItem } from "react-bootstrap";
 import {Bar} from 'react-chartjs-2';
 import _ from 'lodash'
 import axios from 'axios'
+import './StatsLobsterTitles.css'
 
 const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
 
@@ -87,7 +88,11 @@ export default class StoriesBarChart extends Component {
     if (id === "all") {
         this.setInitialData(this.state.stats);
     } else {
-        const serverStats = this.state.stats[this.state.stats.findIndex(server => server.id === id)].stats;
+        let serverStats = [];
+
+        if (this.state.stats.findIndex(server => server.id === id) !== -1) {
+            serverStats = this.state.stats[this.state.stats.findIndex(server => server.id === id)].stats;
+        }
 
         serverStats.forEach(request => {
             timestamps.push(request.timestamp);
@@ -120,7 +125,7 @@ export default class StoriesBarChart extends Component {
 
     return (
         <div>
-            <h2>Historias Subidas (Últimos 10 dias)</h2>
+            <h2 className="lobsterTitle">Historias Subidas (Últimos 10 dias)</h2>
             <br/>
             <DropdownButton title={"Elegir fuente"} id={"dropdown"}>
                 <MenuItem onClick={(e) => this.resetData("all", e)}>Todos</MenuItem>

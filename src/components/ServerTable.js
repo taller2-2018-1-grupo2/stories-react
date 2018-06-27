@@ -133,10 +133,21 @@ export default class ServerTable extends Component {
     return result;
   }
 
-  customConfirm(next, dropRowKeys) {
+  async customConfirm(next, dropRowKeys) {
     console.log(dropRowKeys);
     //Async/Await y si sale todo bien, confirmo el DELETE de las rows.
-    
+    await axios({
+      method:'delete',
+      url: SHARED_SERVER_URI + '/servers/' + dropRowKeys,
+      headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
+      })
+        .then(function(response) {
+          console.log(response);
+          next();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
   }
 
   componentDidUpdate() {
@@ -181,7 +192,7 @@ export default class ServerTable extends Component {
     };
 
     const selectRowProp = {
-        mode: 'checkbox'
+        mode: 'radio'
     };
     
     const cellEditProp = {

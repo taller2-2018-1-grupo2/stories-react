@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Pie} from 'react-chartjs-2';
 import axios from 'axios'
+import './StatsLobsterTitles.css'
 
 const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
 
@@ -74,7 +75,7 @@ export default class RegisteredUsersPieChart extends Component {
   render() {
     return (
         <div>
-            <h2>Usuarios Registrados</h2>
+            <h2 className="lobsterTitle">Usuarios Registrados</h2>
             <br/>
             <div style={{marginTop: 44 + 'px'}}></div>
             {this.state.isDataReady
