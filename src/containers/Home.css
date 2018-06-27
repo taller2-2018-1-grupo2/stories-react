@@ -4,8 +4,13 @@
   }
   
   .Home .lander h1 {
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Lobster', cursive;
     font-weight: 600;
+    font-size: 70px;
+  }
+
+  .Home .lander p {
+    font-size: 17px;
   }
   
   .Home .lander p {
