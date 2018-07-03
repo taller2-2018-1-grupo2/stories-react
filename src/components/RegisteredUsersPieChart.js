@@ -42,7 +42,7 @@ export default class RegisteredUsersPieChart extends Component {
     let mDatapoints = []
     const serversInfo = this.props.childProps.serversInfo;
 
-    console.log(mStats);
+    //console.log(mStats);
 
     mStats.forEach(server => {
         if (serversInfo.findIndex(serverInfo => serverInfo.id === server.id) !== -1) {

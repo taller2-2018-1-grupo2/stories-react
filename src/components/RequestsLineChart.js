@@ -46,7 +46,7 @@ export default class RequestsLineChart extends Component {
         headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
         })
             .then(function(response) {
-                console.log(response)
+                //console.log(response)
                 loadStats(response.data.servers_stats);
             })
             .catch(function (error) {
@@ -78,7 +78,7 @@ export default class RequestsLineChart extends Component {
         labels: mLabels,
         datasets: [
           {
-            label: 'Minutos',
+            label: 'Consultas',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -168,7 +168,7 @@ export default class RequestsLineChart extends Component {
     });
 
     return (
-        <div>
+        <div style={{marginBottom: 50 + 'px'}}>
             <h2 className="lobsterTitle">Consultas (Por Minuto)</h2>
             <br/>
             <Grid>
@@ -204,7 +204,18 @@ export default class RequestsLineChart extends Component {
                 </Row>
             </Grid>
             {this.state.isDataReady
-              ? <Line data={this.state.data} />
+              ? <Line 
+                    data={this.state.data} 
+                    options={{
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }}
+                />
               : <h4>Cargando gráfico...</h4>
             }
         </div>

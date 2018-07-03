@@ -63,7 +63,7 @@ export default class StoriesBarChart extends Component {
         labels: mLabels,
         datasets: [
             {
-            label: 'Últimos 10 dias',
+            label: 'Historias',
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
@@ -124,7 +124,7 @@ export default class StoriesBarChart extends Component {
     });
 
     return (
-        <div>
+        <div style={{marginBottom: 50 + 'px'}}>
             <h2 className="lobsterTitle">Historias Subidas (Últimos 10 dias)</h2>
             <br/>
             <DropdownButton title={"Elegir fuente"} id={"dropdown"}>
@@ -132,7 +132,18 @@ export default class StoriesBarChart extends Component {
                 {serversInfoMenuItems}
             </DropdownButton>
             {this.state.isDataReady
-              ? <Bar data={this.state.data}/>
+              ? <Bar
+                    data={this.state.data}
+                    options={{
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }}
+                />
               : <h4>Cargando gráfico...</h4>
             }
         </div>

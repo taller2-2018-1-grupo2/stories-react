@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import axios from 'axios'
+import validator from 'validator';
+import { ToastContainer } from "react-toastr";
+import "./Toastr.css";
 
 const SHARED_SERVER_URI = "https://shared-server-stories.herokuapp.com/api"
-
+let container;
 
 export default class ServerTable extends Component {
 
@@ -17,11 +20,17 @@ export default class ServerTable extends Component {
     this.customConfirm = this.customConfirm.bind(this);
     this.onAddRow = this.onAddRow.bind(this);
     this.onBeforeSaveCell = this.onBeforeSaveCell.bind(this);
+    this.nameValidator = this.nameValidator.bind(this);
+    this.urlValidator = this.urlValidator.bind(this);
+    this.customTitle = this.customTitle.bind(this);
+    this.displayErrorToastr = this.displayErrorToastr.bind(this);
   }
 
   async componentDidMount(){
     //console.log(this.props.childProps.token.token)
+    
     const setServers = mServers => this.setState({servers: mServers});
+    const errorToastr = message => this.displayErrorToastr(message);
 
     await axios({
       method:'get',
@@ -47,6 +56,7 @@ export default class ServerTable extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          errorToastr("No se pudieron cargar los datos.");
         });
 
   };
@@ -57,6 +67,7 @@ export default class ServerTable extends Component {
 
     console.log(row._rev);
     const setServers = mServers => this.setState({servers: mServers});
+    const errorToastr = message => this.displayErrorToastr(message);
 
     let result = false;
 
@@ -77,7 +88,7 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
-                alert("No se pudo editar el servidor.");
+                errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
     } else {
@@ -97,7 +108,7 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
-                alert("No se pudo editar el servidor.");
+                errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
     }
@@ -134,6 +145,8 @@ export default class ServerTable extends Component {
   }
 
   async customConfirm(next, dropRowKeys) {
+    const errorToastr = message => this.displayErrorToastr(message);
+
     console.log(dropRowKeys);
     //Async/Await y si sale todo bien, confirmo el DELETE de las rows.
     await axios({
@@ -147,6 +160,7 @@ export default class ServerTable extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          errorToastr("No se pudo eliminar el servidor.");
         });
   }
 
@@ -157,6 +171,7 @@ export default class ServerTable extends Component {
   onAddRow(row) {
       const setServers = mServers => this.setState({servers: mServers});
       const getServers = () => this.state.servers;
+      const errorToastr = message => this.displayErrorToastr(message);
 
       const innerAsyncFct = async () => {
         await axios({
@@ -171,12 +186,16 @@ export default class ServerTable extends Component {
             .then(function(response) {
               console.log(response);
               let servers = getServers();
+
+              let date = new Date(response.data.server.server.createdTime);
+              response.data.server.server.createdTime = date.toLocaleDateString();
+            
               servers.push(response.data.server.server);
               setServers(servers);
             })
             .catch(function (error) {
               console.log(error);
-              alert("No se pudo crear el servidor.");
+              errorToastr("No se pudo crear el servidor.");
             });
       }
       
@@ -184,11 +203,42 @@ export default class ServerTable extends Component {
       return;
   }
 
+  displayErrorToastr(message) {
+    container.error(<div></div>, <em>{message}</em>, 
+        {closeButton: true, timeOut: 3000}
+      );
+  }
+
+  nameValidator(value) {
+    const response = { isValid: true, notification: { type: 'success', msg: '', title: '' } };
+    if (!validator.isAlphanumeric(value)) {
+      this.displayErrorToastr("El nombre ingresado no es valido. (Alfanumerico)");
+      response.isValid = false;
+    }
+    return response;
+  }
+  
+  urlValidator(value) {
+    const response = { isValid: true, notification: { type: 'success', msg: '', title: '' } };
+    if (!validator.isURL(value)) {
+      this.displayErrorToastr("La URL ingresada es invalida.");
+      response.isValid = false;
+    }
+    return response;
+  }
+
+  customTitle(cell, row, rowIndex, colIndex) {
+    return `Doble click para editar`;
+  }
+
   render() {
     const options = {
         onAddRow: this.onAddRow,
         handleConfirmDeleteRow: this.customConfirm,
-        noDataText: 'La información aun no ha cargado.'
+        noDataText: 'La información aun no ha cargado.',
+        beforeShowError: (type, msg) => {
+          return false;
+        }
     };
 
     const selectRowProp = {
@@ -197,17 +247,24 @@ export default class ServerTable extends Component {
     
     const cellEditProp = {
         mode: 'dbclick',
-        blurToSave: true,
         beforeSaveCell: this.onBeforeSaveCell
     };
 
+    const nameValidator = this.nameValidator;
+
+    const urlValidator = this.urlValidator;
+
     return (
       <div>
+        <ToastContainer
+          ref={ref => container = ref}
+          className="toast-top-right"
+        />
         <BootstrapTable ref='serverTable' data={ this.state.servers } insertRow={ true } deleteRow={ true } selectRow={ selectRowProp } options={ options }
                     headerStyle={ { background: '#f8f8f8' } } cellEdit={ cellEditProp }>
             <TableHeaderColumn dataField='id' hiddenOnInsert editable={ false } isKey={ true } width='70'>ID</TableHeaderColumn>
-            <TableHeaderColumn dataField='name' width='200'>Nombre</TableHeaderColumn>
-            <TableHeaderColumn dataField='url' width='320'>Server URL</TableHeaderColumn>
+            <TableHeaderColumn dataField='name' columnTitle={ this.customTitle } editable={{ type: 'textarea', validator: nameValidator }} width='200'>Nombre</TableHeaderColumn>
+            <TableHeaderColumn dataField='url' editable={{ type: 'textarea', validator: urlValidator }} width='320'>Server URL</TableHeaderColumn>
             <TableHeaderColumn dataField='createdBy' hiddenOnInsert editable={ false } width='120'>Creado por</TableHeaderColumn>
             <TableHeaderColumn dataField='createdTime' hiddenOnInsert editable={ false } width='150'>Fecha de creación</TableHeaderColumn>
             <TableHeaderColumn dataField='lastConnection' hiddenOnInsert editable={ false }>Última conexión</TableHeaderColumn>

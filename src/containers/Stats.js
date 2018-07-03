@@ -21,7 +21,7 @@ export default class Stats extends Component {
   }
 
   async componentDidMount(){
-    console.log(this.props.token);
+    //console.log(this.props.token);
 
     const setServersInfo = mServersInfo => this.setState({ 
       serversInfo: mServersInfo,
@@ -34,7 +34,7 @@ export default class Stats extends Component {
       headers: {'Authorization': 'Bearer ' + this.props.token.token}
       })
         .then(function(response) {
-          console.log(response)
+          //console.log(response)
 
           let mServersInfo = [];
 

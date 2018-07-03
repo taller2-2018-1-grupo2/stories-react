@@ -30,7 +30,7 @@ class App extends Component {
         headers: {'Authorization': 'Bearer ' + this.state.token.token}
         })
           .then(function(response) {
-            console.log(response)
+            //console.log(response)
             setServers(response.data.servers);
           })
           .catch(function (error) {
