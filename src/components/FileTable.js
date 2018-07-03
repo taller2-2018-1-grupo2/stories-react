@@ -29,7 +29,6 @@ export default class FileTable extends Component {
 
   async componentDidMount(){
     //console.log(this.props.childProps.serverID)
-
     this.loadFiles();
   };
 
