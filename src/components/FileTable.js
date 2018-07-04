@@ -62,6 +62,9 @@ export default class FileTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                if (error.status === 409) {
+                  errorToastr("No se pudo editar el archivo. Ya existe un archivo con ese nombre.");
+                }
                 errorToastr("No se pudo editar el archivo.");
                 result = false;
               });
@@ -84,6 +87,9 @@ export default class FileTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                if (error.status === 409) {
+                  errorToastr("No se pudo editar el archivo. Ya existe un archivo con ese nombre.");
+                }
                 errorToastr("No se pudo editar el archivo.");
                 result = false;
               });

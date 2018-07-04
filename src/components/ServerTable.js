@@ -88,6 +88,9 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                if (error.status === 409) {
+                  errorToastr("No se pudo editar el servidor. Ya existe un servidor con ese nombre.");
+                }
                 errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
@@ -108,6 +111,9 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
+                if (error.status === 409) {
+                  errorToastr("No se pudo editar el servidor. Ya existe un servidor con ese nombre.");
+                }
                 errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
@@ -195,6 +201,9 @@ export default class ServerTable extends Component {
             })
             .catch(function (error) {
               console.log(error);
+              if (error.status === 409) {
+                errorToastr("No se pudo crear el servidor. Ya existe un servidor con ese nombre.");
+              }
               errorToastr("No se pudo crear el servidor.");
             });
       }
