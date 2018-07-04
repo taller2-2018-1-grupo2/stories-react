@@ -95,7 +95,9 @@ La pantalla de **Servidores** nos permite administrar los servidores actualmente
 ***Acciones***
 
 * ***Insertar***: Para insertar un nuevo servidor, debemos primero presionar el boton **NEW** celeste que se encuentra justo arriba de la tabla y posteriormente, en el cuadro que se nos presenta, ingresar el *Nombre* y la *Server URL* que queremos que tenga nuestro nuevo servidor. 
+
 ***Nota:*** Estos campos se encuentran sujetos a las mismas restricciones que al momento de editarlos.
+
 ![alt text](https://github.com/taller2-2018-1-grupo2/stories-react/raw/master/docs/images/insertModal.png "Logo Title Text 1")
 * ***Eliminar***: Para eliminar un servidor, debemos primero seleccionar el servidor que deseamos eliminar marcando el checkbox de la izquierda de la tabla y luego presionando el boton **DELETE** amarillo que se encuentra justo arriba de la misma.
 * ***Editar***: Para editar un servidor, debemos hacer doble click en cualquiera de los campos editables del mismo (*Nombre* y *Server URL*) y luego en el campo de texto que se presenta ingresar el nuevo valor para ese campo.
