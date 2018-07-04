@@ -121,4 +121,5 @@ La pantalla de **Estadísticas** nos permite llevar un control de ciertos datos 
 * ***Consultas (Por Minuto):*** Nos muestra en un gráfico de linea como se distribuyen las consultas en el período de tiempo seleccionado.
 Para seleccionar el período de tiempo, debemos ingresar la cantidad de minutos que queremos que nos muestre en el cuadro situado arriba de la tabla y presionar el boton *"Actualizar"*. Por defecto, el valor tomado es 60 minutos.
 Una vez hecho esto, tendremos la información disponible para *Todos* los App Servers, pero utilizando el menú *"Elegir fuente"* podemos filtrar la misma para cualquier App Server en particular.
+
     > ***Nota:*** Para que los cambios tengan el efecto deseado, debemos primero actualizar la cantidad de minutos a mostrar y luego filtrar por el App Server particular que deseamos ver. Si primero se filtra por el App Server y luego se actualiza el período de tiempo a visualizar, estaremos viendo las consultas para *Todos* los App Servers en ese período de tiempo, y no para el App Server específico que habiamos seleccionado anteriormente.
