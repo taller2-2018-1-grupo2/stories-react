@@ -83,9 +83,10 @@ La pantalla de **Archivos** ofrece la posibilidad de administrar los archivos ac
 ***Acciones***
 * ***Eliminar***: Para eliminar un archivo, debemos primero seleccionar el archivo que deseamos eliminar marcando el checkbox de la izquierda de la tabla y luego presionando el boton **DELETE** amarillo que se encuentra justo arriba de la misma.
 * ***Editar***: Para editar un archivo, debemos hacer doble click en cualquiera de los campos editables del mismo (*URL* y *Nombre*) y luego en el campo de texto que se presenta ingresar el nuevo valor para ese campo.
-    > ***Nota:*** Para los valores editables existen algunas restricciones:
-    Los valores ingresados para el campo **URL** tendran que tener el formato de una URL válida.
-    Los valores ingresados para el campo **Nombre** deberán tener un formato de archivo válido, incluyendo exclusivamente caracteres alfanumericos para el nombre y su respectiva extensión. Además, el nombre no debe ser igual a otro archivo ya existente en ese servidor.
+    
+    ***Nota:*** Para los valores editables existen algunas restricciones:
+    - Los valores ingresados para el campo **URL** tendran que tener el formato de una URL válida.
+    - Los valores ingresados para el campo **Nombre** deberán tener un formato de archivo válido, incluyendo exclusivamente caracteres alfanumericos para el nombre y su respectiva extensión. Además, el nombre no debe ser igual a otro archivo ya existente en ese servidor.
 
 ##### Servidores
 ---
@@ -98,9 +99,10 @@ La pantalla de **Servidores** nos permite administrar los servidores actualmente
 ![alt text](https://github.com/taller2-2018-1-grupo2/stories-react/raw/master/docs/images/insertModal.png "Logo Title Text 1")
 * ***Eliminar***: Para eliminar un servidor, debemos primero seleccionar el servidor que deseamos eliminar marcando el checkbox de la izquierda de la tabla y luego presionando el boton **DELETE** amarillo que se encuentra justo arriba de la misma.
 * ***Editar***: Para editar un servidor, debemos hacer doble click en cualquiera de los campos editables del mismo (*Nombre* y *Server URL*) y luego en el campo de texto que se presenta ingresar el nuevo valor para ese campo.
-    > ***Nota:*** Para los valores editables existen algunas restricciones:
-    Los valores ingresados para el campo **Server URL** tendran que tener el formato de una URL válida.
-    Los valores ingresados para el campo **Nombre** deberán incluir exclusivamente caracteres alfanumericos. Además, el nombre no debe ser igual a otro servidor ya existente.
+    
+    ***Nota:*** Para los valores editables existen algunas restricciones:
+    - Los valores ingresados para el campo **Server URL** tendran que tener el formato de una URL válida.
+    - Los valores ingresados para el campo **Nombre** deberán incluir exclusivamente caracteres alfanumericos. Además, el nombre no debe ser igual a otro servidor ya existente.
 
 ##### Estadísticas
 ---
