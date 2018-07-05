@@ -88,10 +88,11 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
-                if (error.status === 409) {
+                if (error.toString().includes("409")) {
                   errorToastr("No se pudo editar el servidor. Ya existe un servidor con ese nombre.");
+                } else {
+                  errorToastr("No se pudo editar el servidor.");
                 }
-                errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
     } else {
@@ -111,41 +112,40 @@ export default class ServerTable extends Component {
               })
               .catch(function (error) {
                 console.log(error);
-                if (error.status === 409) {
+                if (error.toString().includes("409")) {
                   errorToastr("No se pudo editar el servidor. Ya existe un servidor con ese nombre.");
+                } else {
+                  errorToastr("No se pudo editar el servidor.");
                 }
-                errorToastr("No se pudo editar el servidor.");
                 result = false;
               });
     }
 
-    if (result === true) {
-        await axios({
-            method:'get',
-            url: SHARED_SERVER_URI + '/servers',
-            headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
-            })
-              .then(function(response) {
-                console.log(response)
-      
-                response.data.servers.forEach(server => {
-                  let date = new Date(server.createdTime);
-                  server.createdTime = date.toLocaleDateString();
-                });
-      
-                response.data.servers.forEach(server => {
-                  if (server.lastConnection !== "") {
-                      let date = new Date(server.lastConnection);
-                      server.lastConnection = date.toLocaleString();
-                  }
-                });
-      
-                setServers(response.data.servers);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-    }
+    await axios({
+        method:'get',
+        url: SHARED_SERVER_URI + '/servers',
+        headers: {'Authorization': 'Bearer ' + this.props.childProps.token.token}
+        })
+          .then(function(response) {
+            console.log(response)
+  
+            response.data.servers.forEach(server => {
+              let date = new Date(server.createdTime);
+              server.createdTime = date.toLocaleDateString();
+            });
+  
+            response.data.servers.forEach(server => {
+              if (server.lastConnection !== "") {
+                  let date = new Date(server.lastConnection);
+                  server.lastConnection = date.toLocaleString();
+              }
+            });
+  
+            setServers(response.data.servers);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
     return result;
   }
@@ -201,10 +201,11 @@ export default class ServerTable extends Component {
             })
             .catch(function (error) {
               console.log(error);
-              if (error.status === 409) {
+              if (error.toString().includes("400")) {
                 errorToastr("No se pudo crear el servidor. Ya existe un servidor con ese nombre.");
+              } else {
+                errorToastr("No se pudo crear el servidor.");
               }
-              errorToastr("No se pudo crear el servidor.");
             });
       }
       
