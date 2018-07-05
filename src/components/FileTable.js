@@ -35,7 +35,6 @@ export default class FileTable extends Component {
   async onBeforeSaveCell(row, cellName, cellValue) {
     // You can do any validation on here for editing value,
     // return false for reject the editing
-
     const errorToastr = message => this.displayErrorToastr(message);
 
     console.log(this.state.serverToken);
